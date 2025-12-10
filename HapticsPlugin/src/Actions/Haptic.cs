@@ -22,109 +22,112 @@
             PluginLog.Info("Added controls");
 
             // Subscribe to events
-            this.ActionEditor.ListboxItemsRequested += this.OnListboxItemsRequested;
+            this.ActionEditor.ListboxItemsRequested += OnListboxItemsRequested;
 
             this.ActionEditor.ControlValueChanged += this.OnControlValueChanged;
         }
 
-        private void OnListboxItemsRequested(Object sender, ActionEditorListboxItemsRequestedEventArgs e)
+        private static void OnListboxItemsRequested(Object sender, ActionEditorListboxItemsRequestedEventArgs e)
         {
-            if (e.ControlName.EqualsNoCase("haptic"))
+            if (!e.ControlName.EqualsNoCase("haptic"))
             {
-                // Add items to the listbox
-                // ─── State‑Change Waveforms ───────────────────────────────────────
-                e.AddItem(
-                    name: "sharp_state_change",
-                    displayName: "Sharp State Change",
-                    description:
-                    "Short, high‑intensity pulse for discrete state transitions (button presses, toggles)");
+                return;
+            }
 
-                e.AddItem(
-                    name: "damp_state_change",
-                    displayName: "Damp State Change",
-                    description: "Gradual intensity change for smooth state transitions");
+            // Add items to the listbox
+            // ─── State‑Change Waveforms ───────────────────────────────────────
+            e.AddItem(
+                name: "sharp_state_change",
+                displayName: "Sharp State Change",
+                description:
+                "Short, high‑intensity pulse for discrete state transitions (button presses, toggles)");
+
+            e.AddItem(
+                name: "damp_state_change",
+                displayName: "Damp State Change",
+                description: "Gradual intensity change for smooth state transitions");
 
 // ─── Collision Waveforms ───────────────────────────────────────────
-                e.AddItem(
-                    name: "sharp_collision",
-                    displayName: "Sharp Collision",
-                    description: "High‑intensity impact simulation for collision events");
+            e.AddItem(
+                name: "sharp_collision",
+                displayName: "Sharp Collision",
+                description: "High‑intensity impact simulation for collision events");
 
-                e.AddItem(
-                    name: "damp_collision",
-                    displayName: "Damp Collision",
-                    description: "Medium‑intensity impact with gradual decay");
+            e.AddItem(
+                name: "damp_collision",
+                displayName: "Damp Collision",
+                description: "Medium‑intensity impact with gradual decay");
 
-                e.AddItem(
-                    name: "subtle_collision",
-                    displayName: "Subtle Collision",
-                    description: "Low‑intensity feedback for light contact events");
+            e.AddItem(
+                name: "subtle_collision",
+                displayName: "Subtle Collision",
+                description: "Low‑intensity feedback for light contact events");
 
 // ─── Alert Waveforms ───────────────────────────────────────────────
-                e.AddItem(
-                    name: "happy_alert",
-                    displayName: "Happy Alert",
-                    description: "Positive feedback pattern for success states");
+            e.AddItem(
+                name: "happy_alert",
+                displayName: "Happy Alert",
+                description: "Positive feedback pattern for success states");
 
-                e.AddItem(
-                    name: "angry_alert",
-                    displayName: "Angry Alert",
-                    description: "Attention‑grabbing pattern for error conditions");
+            e.AddItem(
+                name: "angry_alert",
+                displayName: "Angry Alert",
+                description: "Attention‑grabbing pattern for error conditions");
 
-                e.AddItem(
-                    name: "completed",
-                    displayName: "Completed",
-                    description: "Confirmation pattern for task completion");
+            e.AddItem(
+                name: "completed",
+                displayName: "Completed",
+                description: "Confirmation pattern for task completion");
 
 // ─── Special Waveforms ─────────────────────────────────────────────
-                e.AddItem(
-                    name: "square",
-                    displayName: "Square",
-                    description: "Sharp‑edged waveform with defined start/stop points");
+            e.AddItem(
+                name: "square",
+                displayName: "Square",
+                description: "Sharp‑edged waveform with defined start/stop points");
 
-                e.AddItem(
-                    name: "wave",
-                    displayName: "Wave",
-                    description: "Smooth sinusoidal pattern with gradual transitions");
+            e.AddItem(
+                name: "wave",
+                displayName: "Wave",
+                description: "Smooth sinusoidal pattern with gradual transitions");
 
-                e.AddItem(
-                    name: "firework",
-                    displayName: "Firework",
-                    description: "Multi‑burst pattern with varying intensities");
+            e.AddItem(
+                name: "firework",
+                displayName: "Firework",
+                description: "Multi‑burst pattern with varying intensities");
 
-                e.AddItem(
-                    name: "mad",
-                    displayName: "Mad",
-                    description: "High‑frequency chaotic pattern");
+            e.AddItem(
+                name: "mad",
+                displayName: "Mad",
+                description: "High‑frequency chaotic pattern");
 
-                e.AddItem(
-                    name: "knock",
-                    displayName: "Knock",
-                    description: "Repetitive impact pattern");
+            e.AddItem(
+                name: "knock",
+                displayName: "Knock",
+                description: "Repetitive impact pattern");
 
-                e.AddItem(
-                    name: "jingle",
-                    displayName: "Jingle",
-                    description: "Musical‑style pattern with multiple tones");
+            e.AddItem(
+                name: "jingle",
+                displayName: "Jingle",
+                description: "Musical‑style pattern with multiple tones");
 
-                e.AddItem(
-                    name: "ringing",
-                    displayName: "Ringing",
-                    description: "Continuous oscillating pattern");
+            e.AddItem(
+                name: "ringing",
+                displayName: "Ringing",
+                description: "Continuous oscillating pattern");
 
 
-                e.SetSelectedItemName("damp_state_change");
-            }
+            e.SetSelectedItemName("damp_state_change");
         }
 
         private void OnControlValueChanged(Object sender, ActionEditorControlValueChangedEventArgs e)
         {
-            if (e.ControlName.EqualsNoCase("haptic"))
+            if (!e.ControlName.EqualsNoCase("haptic"))
             {
-                PluginLog.Info("Starting haptics: " + e.ActionEditorState.GetControlValue("haptic").Trim());
-                this.Plugin.PluginEvents.RaiseEvent(e.ActionEditorState.GetControlValue("haptic").Trim());
+                return;
             }
 
+            PluginLog.Info("Starting haptics: " + e.ActionEditorState.GetControlValue("haptic").Trim());
+            this.Plugin.PluginEvents.RaiseEvent(e.ActionEditorState.GetControlValue("haptic").Trim());
             e.ActionEditorState.SetDisplayName($"Haptic:\n{e.ActionEditorState.GetControlValue("haptic").Trim()}");
             PluginLog.Info($"Haptic:\n{e.ActionEditorState.GetControlValue("haptic").Trim()}");
         }
@@ -214,14 +217,14 @@
 
         protected override Boolean RunCommand(ActionEditorActionParameters actionParameters)
         {
-            if (actionParameters.TryGetString("haptic", out var selectedHaptic))
+            if (!actionParameters.TryGetString("haptic", out var selectedHaptic))
             {
-                // Perform action with user's configured text
-                this.Plugin.PluginEvents.RaiseEvent(selectedHaptic.Trim());
-                return true;
+                return false;
             }
 
-            return false;
+            // Perform action with user's configured text
+            this.Plugin.PluginEvents.RaiseEvent(selectedHaptic.Trim());
+            return true;
         }
     }
 }

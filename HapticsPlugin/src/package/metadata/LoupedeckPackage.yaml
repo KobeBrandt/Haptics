@@ -50,6 +50,7 @@ supportedDevices:
 
 # List of plugin capabilities.
 pluginCapabilities:
+    - HasHapticMapping
     # Uncomment the following line if this plugin is an application plugin.
     #- HasApplication
 
